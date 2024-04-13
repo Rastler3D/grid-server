@@ -1,0 +1,80 @@
+version: "3.9"
+
+services:
+  dll-node:
+    build:
+      context: "./"
+      dockerfile: node
+    depends_on:
+      node-manager:
+        condition: service_healthy
+    networks:
+      grid-network:
+    restart: always
+    environment:
+      BIND_ADDRESS: "0.0.0.0:0"
+      LIBRARY_TYPE: dll
+      NAME: DllNode
+      HEARTBEAT_INTERVAL: 200ms
+  wasm-node:
+    build:
+      context: "./"
+      dockerfile: node
+    depends_on:
+      node-manager:
+        condition: service_healthy
+    networks:
+      grid-network:
+    restart: always
+    environment:
+      BIND_ADDRESS: "0.0.0.0:0"
+      LIBRARY_TYPE: wasm
+      NAME: WasmNode
+      HEARTBEAT_INTERVAL: 200ms
+
+
+  node-manager:
+    build:
+      context: "./"
+      dockerfile: node-manager/
+    networks:
+      grid-network:
+    restart: always
+    environment:
+      BIND_API_SERVER_ADDRESS: "0.0.0.0:8080"
+      SCHEDULER_TIMEOUT: 15min
+      NODE_TIMEOUT: 5min
+      BIND_ADDRESS: "0.0.0.0:7294"
+    ports:
+      - "8080:8080"
+      - "7294:7294"
+
+  scheduler:
+    build: scheduler
+    networks:
+      grid-network:
+    restart: always
+    environment:
+      FAILED_EXECUTIONS_LIMIT: 20
+      NODE_MANAGER_ADDRESS: "node-manager:7294"
+      BIND_ADDRESS: "0.0.0.0:7295"
+      BIND_API_SERVER_ADDRESS: "0.0.0.0:8081"
+      NAME: Scheduler
+    ports:
+      - "7295:7295"
+      - "8081:8081"
+
+  task-manager:
+    build: task_manager
+    networks:
+      grid-network:
+    restart: always
+    environment:
+      BIND_API_SERVER_ADDRESS: "0.0.0.0:8082"
+      SCHEDULER_ADDRESS: "scheduler:7295"
+    ports:
+      - "8082:8082"
+
+
+networks:
+  grid-network:

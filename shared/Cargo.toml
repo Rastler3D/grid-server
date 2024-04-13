@@ -1,0 +1,88 @@
+
+[package]
+name = "shared"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+bincode = { version = "2.0.0-rc.3", features = ["serde"], optional = true }
+tokio-util = { version = "0.7.10", features = ["codec"], optional = true  }
+tokio-stream = { version = "0.1.15", optional = true  }
+tokio =  { version = "1.37.0", features = ["sync"], optional = true  }
+mdns-sd = { version = "0.10.5", optional = true  }
+thiserror = { version = "1.0.58", optional = true  }
+anyhow = { version = "1.0.81", optional = true  }
+serde = { version = "1.0.197", features = ["derive"]  }
+uuid = { version = "1.7.0", features = ["v4", "fast-rng", "serde"], optional = true  }
+bitset-core = { version = "0.1.1", optional = true }
+serde_json = { version = "1.0.114", optional = true  }
+rcgen = { version = "0.12.1" , optional = true }
+rustls = { version = "^0.21.0", features = ["dangerous_configuration"] , optional = true }
+serde_derive = { version = "1.0.197" }
+backoff = { version = "0.4.0", features = ["futures", "tokio"], optional = true  }
+quinn = { version = "0.10.2" , optional = true }
+tracing = { version = "0.1.40", optional = true  }
+humantime = { version = "2.1.0" , optional = true }
+async-stream = { version = "0.3.5", optional = true }
+
+[features]
+worker = [
+    "dep:uuid"
+]
+task_manager = [
+    "dep:serde_json",
+    "dep:bitset-core"
+]
+scheduler = [
+    "worker"
+]
+bitset = [
+    "dep:bitset-core"
+]
+multilevel_vec_map = []
+retry = [
+    "dep:humantime",
+    "dep:backoff",
+    "dep:anyhow",
+    "dep:tracing",
+    "dep:quinn"
+]
+bincodec = [
+    "dep:tokio-util",
+    "dep:bincode"
+]
+channel = [
+    "dep:tokio-util",
+    "dep:tokio-stream",
+    "dep:tokio"
+]
+certificate = [
+    "dep:thiserror",
+    "dep:rcgen",
+    "dep:rustls"
+]
+node_manager = [
+    "dep:mdns-sd",
+    "dep:async-stream",
+    "dep:tokio-stream",
+    "worker"
+]
+buffer = [
+]
+
+linked_list = [
+]
+
+priority_queue = [
+]
+vec_map = [
+]
+
+node = [
+]
+
+executor = [
+]
+

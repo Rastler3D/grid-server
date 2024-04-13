@@ -1,0 +1,32 @@
+[package]
+name = "scheduler"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+shared = { path = "../shared", features = ["node_manager", "scheduler", "priority_queue", "buffer", "vec_map", "certificate", "bincodec", "channel", "retry"] }
+uuid = { version = "1.8.0", features = ["v4"] }
+anyhow = "1.0.81"
+humantime = "2.1.0"
+bincode = { version = "2.0.0-rc.3", features = ["serde"] }
+slab = "0.4.9"
+tokio = { version = "1.36.0" , features = ["macros", "rt-multi-thread", "net", "sync", "rt"] }
+tokio-stream = { version = "0.1.15" }
+tokio-util = { version = "0.7.10", features = ["codec", "time" ] }
+futures-sink = "0.3.30"
+futures-util = { version = "0.3.30", features = ["sink"] }
+quinn = { version = "0.10.2", features = [ "runtime-tokio","ring" ] }
+serde = { version = "1.0.197", features = ["derive"] }
+serde_json = "1.0.115"
+clap = { version = "4.5.4", features = ["derive", "env"] }
+tracing = "0.1.40"
+tracing-subscriber = "0.3.18"
+rustls = { version = "^0.21.0", features = ["dangerous_configuration"] }
+x509-parser = "0.12.0"
+rcgen = { version = "0.12.1", features = ["pem", "x509-parser"] }
+rustls-pemfile = "1.0.4"
+awaitable-bool = "0.1.2"
+axum = "=0.7.4"
+log = "0.4.21"

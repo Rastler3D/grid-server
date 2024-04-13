@@ -1,0 +1,46 @@
+[workspace]
+members = ["executor"]
+
+[package]
+name = "node"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow.workspace = true
+humantime = "2.1.0"
+shared = { workspace = true, features = ["worker", "executor", "bincodec", "node", "node_manager", "certificate", "retry", "channel"] }
+slab = "0.4.9"
+futures-sink = "0.3.30"
+async-stream = "0.3.5"
+wasmtime = { version = "19.0.0", features = ["component-model", "runtime", "async"] }
+wasmtime-wasi = "19.0.0"
+tracing = { version = "0.1.40", features = ["attributes"] }
+tracing-subscriber = "0.3"
+rcgen = { version = "0.12.1", features = ["pem", "x509-parser"]}
+rustls-pemfile = "1.0.4"
+rustls = { version = "^0.21.0", features = ["dangerous_configuration"] }
+quinn = { version = "0.10.2", features = [ "runtime-tokio","ring" ] }
+tokio = { version = "1.36.0" , features = ["macros", "rt-multi-thread", "net", "sync", "process", "fs"] }
+tokio-util = { version = "0.7.10" , features = ["codec", "time", "compat"]}
+tokio-stream = "0.1.14"
+const_format = "0.2.32"
+lru.workspace = true
+libloading.workspace = true
+interprocess = { workspace = true, features = ["tokio_support"] }
+uuid.workspace = true
+bincode.workspace = true
+clap = { workspace = true, features = ["derive", "env"] }
+futures-util = "0.3.30"
+
+[workspace.dependencies]
+anyhow = "1.0.81"
+shared = { path = "../shared", features = ["executor", "worker"] }
+lru = "0.12.3"
+libloading = { version = "0.8.3" }
+interprocess = { version = "1.2.1" }
+uuid = { version = "1.8.0", features = ["v4"] }
+bincode = { version = "2.0.0-rc.3", features = ["serde"] }
+clap = "4.5.3"

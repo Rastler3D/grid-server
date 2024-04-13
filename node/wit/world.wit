@@ -1,0 +1,5 @@
+package component:job;
+
+world job {
+    export execute-job: func(job-data: list<u8>, task-data: list<u8>) -> result<list<u8>, string>;
+}
